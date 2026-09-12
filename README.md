@@ -25,7 +25,7 @@ The current version already has the basic application structure and functionalit
 Clone the repository and install the dependencies:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/tarotr.git
+git clone https://github.com/antoniocarlos-fg/tarotr.git
 cd tarotr
 npm install
 ```
