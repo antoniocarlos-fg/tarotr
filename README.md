@@ -38,4 +38,4 @@ npm run tauri dev
 
 ## License
 
-This project is currently intended as a personal learning and development project.
+This repository is licensed under the MIT License.
