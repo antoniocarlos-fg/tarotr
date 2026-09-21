@@ -13,8 +13,11 @@
     "windows": [
       {
         "title": "tarotr",
+        "decorations": false,
+        "shadow": true,
+        "transparent": true,
         "width": 605,
-        "height": 330,
+        "height": 200,
         "resizable": false
       }
     ],

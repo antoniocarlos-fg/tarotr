@@ -36,6 +36,10 @@ Run the application in development mode:
 npm run tauri dev
 ```
 
+## Credits
+
+Pixel art tarot card assets by **Jose Angel Canabal** ([jcanabal](https://jcanabal.itch.io/major-arcana-pixel-art-free))
+
 ## License
 
 This repository is licensed under the MIT License.
