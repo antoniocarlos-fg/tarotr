@@ -1,5 +1,6 @@
 import "./App.css";
-import tarotr from "./assets/tarotr.png";
+import TitleBar from './TitleBar.tsx';
+import Typewriter from "./components/Typewriter.tsx";
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
@@ -56,19 +57,23 @@ function App(){
   }
 
   return (  
-    <div className="w-screen h-screen flex rounded-2xl border-2 border-purple-950 bg-purple-300">
+    <div className="w-screen h-screen flex rounded-2xl border-2 border-purple-400 bg-[url(/background.gif)]">
+  
+      <div className="flex flex-col w-screen items-center">
 
-      <div className="flex flex-col w-fit m-10 items-start gap-5">
-        <p className="select-none text-[40px] text-white text-center">
-          tiragem de<br/>cartas de tarô</p>
-        <button onClick={abrirTiragem} className="select-none self-center p-2 rounded border border-purple-950 bg-purple-400 hover:bg-purple-500 active:translate-y-1 transition-transform text-white text-[20px]">
-          realizar tiragem</button>
-      </div>
+        <TitleBar />
 
-      <div className="ml-auto justify-end m-6">
-        <img className="size-60" src={tarotr}></img>
-      </div>
-      
+        <img className="w-50 object-fill mt-20 floating hover:w-52 transition-transform active:w-50"
+          src="/menu-card.png"
+          onClick={abrirTiragem}>
+        </img>
+
+        <div className="font-pixel text-[26px] my-15 select-none text-zinc-200 floating text-center">
+          <Typewriter text={"toque a carta\npara revelá-la"} speed={80}/>
+        </div>
+
+      </div>  
+    
     </div>
   );
 }

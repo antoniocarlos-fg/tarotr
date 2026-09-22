@@ -5,3 +5,27 @@ html, body{
     margin: 0;
     padding: 0;
 }
+
+@theme {
+  --font-pixel: 'pixel', sans-serif;
+}
+
+@font-face {
+    font-family: 'pixel';
+    src: url('src/assets/fonts/pixel.ttf') format('truetype');
+    font-style: normal;
+    font-display: swap;
+}
+
+@keyframes float {
+    0%, 100% {transform: translateY(0px);}
+    50% {transform: translateY(-12px);}
+}
+
+.floating{
+    animation: float 3s ease-in-out infinite;
+}
+
+.floating:hover{
+    animation-play-state: paused;
+}
