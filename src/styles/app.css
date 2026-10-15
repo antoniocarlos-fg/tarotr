@@ -12,9 +12,13 @@ html, body{
 
 @font-face {
     font-family: 'pixel';
-    src: url('./assets/fonts/pixel.ttf') format('truetype');
+    src: url('../assets/fonts/pixel.ttf') format('truetype');
     font-style: normal;
     font-display: swap;
+}
+
+.app-background {
+    background-image: url('../assets/images/background.gif');
 }
 
 @keyframes float {

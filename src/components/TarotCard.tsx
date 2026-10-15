@@ -1,4 +1,5 @@
 import { useState, type MouseEvent } from "react";
+import menuCard from "../assets/images/menu-card.png";
 
 type TarotCardProps = {
   onClick: () => void;
@@ -35,7 +36,7 @@ export default function TarotCard({ onClick }: TarotCardProps) {
       style={{ perspective: "800px" }}
     >
       <img
-        src="/menu-card.png"
+        src={menuCard}
         alt="Carta de tarô virada para baixo"
         draggable={false}
         className="block w-full select-none transition-transform duration-150 ease-out hover:scale-105 active:scale-100"

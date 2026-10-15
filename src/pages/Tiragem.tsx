@@ -1,6 +1,6 @@
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
-import TitleBar from './TitleBar.tsx'
+import TitleBar from '../components/TitleBar.tsx'
 
 function Tiragem() {
   const params = new URLSearchParams(window.location.search);
@@ -20,7 +20,7 @@ function Tiragem() {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden rounded-2xl border-2 border-purple-400 bg-zinc-950 bg-[url(/background.gif)] text-zinc-100">
+    <div className="app-background flex h-screen w-screen flex-col overflow-hidden rounded-2xl border-2 border-purple-400 bg-zinc-950 text-zinc-100">
       <TitleBar onClose={voltar} />
 
       <main className="flex min-h-0 flex-1 gap-4 p-4">

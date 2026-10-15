@@ -36,12 +36,14 @@ npm run build
 
 | Caminho | Função |
 | --- | --- |
-| `src/App.tsx` | Catálogo de cartas, sorteio e criação da janela de tiragem. |
-| `src/tiragem.tsx` | Exibição da carta sorteada e retorno à janela inicial. |
-| `src/components/` | Animações da carta inicial e do texto. |
-| `src/TitleBar.tsx` | Barra de título usada pelas duas janelas. |
-| `src/App.css` | Estilos compartilhados, fonte pixel e animações. |
-| `public/cartas/` | Imagens dos 22 arcanos maiores. |
+| `src/entries/` | Montagem React das duas páginas HTML. |
+| `src/pages/Inicio.tsx` | Sorteio e criação da janela de tiragem. |
+| `src/pages/Tiragem.tsx` | Exibição da carta sorteada e retorno à janela inicial. |
+| `src/data/arcanosMaiores.ts` | Nomes, imagens e interpretações das cartas. |
+| `src/components/` | Barra de título, carta interativa e animação de texto. |
+| `src/styles/app.css` | Tailwind, fonte pixel e animações compartilhadas. |
+| `src/assets/` | Fundo, verso da carta, fonte e outros recursos da interface; os importados são processados pelo Vite. |
+| `public/cartas/` | Imagens das 22 cartas acessadas por URL na tiragem. |
 | `src-tauri/` | Configuração, permissões e inicialização do aplicativo Tauri. |
 
 O sorteio acontece no frontend. A tela inicial passa o nome, a imagem e a interpretação da carta para a janela de tiragem pela URL. O código Rust atualmente inicializa o Tauri; a lógica da tiragem não depende de comandos Rust.

@@ -15,16 +15,16 @@ Este é um projeto pessoal de aprendizado: uma aplicação desktop de tiragem de
 
 - **Tauri 2** empacota a interface como aplicação desktop e fornece as APIs de janelas. A configuração da janela inicial está em `src-tauri/tauri.conf.json`; a capability de `src-tauri/capabilities/default.json` concede as permissões usadas para criar, ocultar, exibir, focar, minimizar e fechar janelas.
 - **Rust** é a camada de inicialização do Tauri. `src-tauri/src/main.rs` chama `tarotr_lib::run()`, definido em `src-tauri/src/lib.rs`. Este último registra o plugin `opener` e um comando `greet` do template, sem uso no fluxo de tiragem atual. A lógica de sorteio está no frontend, não em comandos Rust.
-- **React 19 + TypeScript** implementam a interface. **Vite 8** compila duas entradas HTML independentes: `index.html` → `src/main.tsx` → `src/App.tsx` (janela inicial) e `tiragem.html` → `src/tiragem-main.tsx` → `src/tiragem.tsx` (janela da carta). As entradas são declaradas em `vite.config.ts`.
-- **Tailwind CSS 4** é carregado por `src/App.css`, compartilhado pelas duas entradas. O mesmo arquivo define a fonte pixel e a animação de flutuação. As imagens das 22 cartas dos arcanos maiores (`00.png` a `21.png`), a carta do menu e o fundo estão em `public/`; caminhos iniciados por `/` apontam para esses arquivos. Há também ícones e recursos herdados do template.
-- O projeto é inicial e usa texto/interface em **pt-BR**. O README menciona localização futura, mas não há infraestrutura de i18n no código atual.
+- **React 19 + TypeScript** implementam a interface. **Vite 8** compila duas entradas HTML independentes: `index.html` → `src/entries/inicio.tsx` → `src/pages/Inicio.tsx` e `tiragem.html` → `src/entries/tiragem.tsx` → `src/pages/Tiragem.tsx`. As entradas HTML são declaradas em `vite.config.ts`.
+- **Tailwind CSS 4** é carregado por `src/styles/app.css` nas duas entradas. O mesmo arquivo define a fonte pixel, o fundo e as animações. `src/assets/` guarda recursos da interface; os importados são processados pelo Vite. As 22 imagens dos arcanos maiores (`00.png` a `21.png`) ficam em `public/cartas/`, pois seus caminhos absolutos são passados à janela de tiragem pela URL. `public/favicon.png` é servido diretamente pelas duas páginas HTML.
+- O projeto é inicial e usa texto/interface em **pt-BR**. Não há infraestrutura de i18n no código atual.
 
 ## Fluxo funcional
 
-1. O Tauri inicia a janela principal, sem decoração nativa, com a interface de `App.tsx`. `TitleBar.tsx` fornece área de arrasto e botões de minimizar/fechar. `Typewriter.tsx` anima o desenho do texto.
-2. Ao clicar na imagem da carta, `abrirTiragem()` sorteia um índice com `Math.random()` entre as entradas de `arcanosMaiores`, objeto definido no próprio `App.tsx` com nome, imagem e interpretação de cada carta.
+1. O Tauri inicia a janela principal, sem decoração nativa, com a interface de `src/pages/Inicio.tsx`. `TitleBar.tsx` fornece área de arrasto e botões de minimizar/fechar. `Typewriter.tsx` anima o desenho do texto.
+2. Ao clicar na imagem da carta, `abrirTiragem()` sorteia um índice com `Math.random()` entre as entradas de `arcanosMaiores`, catálogo definido em `src/data/arcanosMaiores.ts` com nome, imagem e interpretação de cada carta.
 3. O frontend cria uma `WebviewWindow` com o rótulo `tiragem` e URL `tiragem.html` contendo `nome`, `imagem` e `texto` em `URLSearchParams`. Após o evento de criação, oculta a janela principal.
-4. `tiragem.tsx` lê esses parâmetros da URL e mostra a carta. O botão **Voltar** busca a janela `main`, exibe e foca essa janela, e fecha a janela `tiragem`.
+4. `src/pages/Tiragem.tsx` lê esses parâmetros da URL e mostra a carta. O botão **Voltar** busca a janela `main`, exibe e foca essa janela, e fecha a janela `tiragem`.
 
 Esse fluxo depende das permissões da capability e dos rótulos `main`/`tiragem`. Ao alterar a navegação, revise as duas entradas, o ciclo de vida das janelas e as permissões em conjunto. A página de tiragem recebe dados pela URL; não há estado global compartilhado, armazenamento persistente, serviço remoto ou histórico de leituras implementado.
 
@@ -32,17 +32,20 @@ Esse fluxo depende das permissões da capability e dos rótulos `main`/`tiragem`
 
 | Caminho | Papel |
 | --- | --- |
-| `src/App.tsx` | Catálogo dos arcanos maiores, sorteio, tela inicial e criação da janela de tiragem. |
-| `src/tiragem.tsx` | Leitura dos parâmetros, apresentação da carta e retorno à janela inicial. |
-| `src/TitleBar.tsx` | Barra de título própria da janela inicial. |
+| `src/pages/Inicio.tsx` | Sorteio, tela inicial e criação da janela de tiragem. |
+| `src/pages/Tiragem.tsx` | Leitura dos parâmetros, apresentação da carta e retorno à janela inicial. |
+| `src/data/arcanosMaiores.ts` | Catálogo dos arcanos maiores e caminhos das imagens. |
+| `src/components/TitleBar.tsx` | Barra de título compartilhada pelas duas janelas. |
 | `src/components/Typewriter.tsx` | Efeito de digitação da chamada na tela inicial. |
-| `src/App.css` | Tailwind, fonte e animação compartilhados. |
-| `src/main.tsx`, `src/tiragem-main.tsx` | Pontos de montagem React das duas páginas. |
+| `src/components/TarotCard.tsx` | Carta interativa com inclinação no hover. |
+| `src/styles/app.css` | Tailwind, fundo, fonte e animações compartilhados. |
+| `src/entries/` | Pontos de montagem React das duas páginas. |
+| `src/assets/` | Recursos incorporados ao build pelo Vite. |
+| `public/cartas/` | Imagens servidas em URLs estáveis para a janela de tiragem. |
 | `vite.config.ts` | Integração React/Tailwind, servidor de desenvolvimento Tauri e build com duas entradas. |
 | `src-tauri/tauri.conf.json` | Configuração do aplicativo, janela inicial e comandos de build. |
 | `src-tauri/capabilities/default.json` | Permissões Tauri para `main` e `tiragem`. |
 | `src-tauri/src/` | Inicialização Rust e código ainda herdado do template. |
-| `src/temp.tsx` | Rascunho solto de JSX; não participa do fluxo da aplicação. |
 
 ## Desenvolvimento e verificação
 
@@ -53,9 +56,9 @@ Esse fluxo depende das permissões da capability e dos rótulos `main`/`tiragem`
 
 ### Estado conhecido na data deste guia
 
-- `npm run build` **falha atualmente** em `src/temp.tsx` com `TS2657: JSX expressions must have one parent element`. O arquivo é incluído porque `tsconfig.json` abrange todo `src/`. Essa falha antecede qualquer mudança feita para criar este guia; não assuma que o build está verde.
+- `npm run build` passou na reorganização de arquivos. Execute-o novamente após mudanças em imports, entradas HTML ou caminhos de assets.
 - A criação da janela de tiragem trata apenas o evento de sucesso (`tauri://created`). Uma falha de criação ou uma tentativa de abrir outra janela com o mesmo rótulo ainda não têm tratamento explícito.
-- Há dados e recursos herdados do template (como `greet`, ícones Vite/Tauri e `src/temp.tsx`). Não presuma que sejam funcionalidades concluídas; ao limpá-los, explique a função atual e confirme o efeito no build e na experiência do usuário.
+- O comando Rust `greet` e o plugin `opener` ainda vêm do template e não participam da tiragem. Não presuma que sejam funcionalidades concluídas; ao limpá-los, explique a função atual e confirme o efeito no build e na experiência do usuário.
 
 ## Critérios para alterações futuras
 
