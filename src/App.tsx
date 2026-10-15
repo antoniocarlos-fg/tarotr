@@ -1,6 +1,7 @@
 import "./App.css";
 import TitleBar from './TitleBar.tsx';
 import Typewriter from "./components/Typewriter.tsx";
+import TarotCard from "./components/TarotCard.tsx";
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
 import { getCurrentWindow } from '@tauri-apps/api/window'
 
@@ -45,8 +46,10 @@ function App(){
     const tiragemWindow = new WebviewWindow('tiragem', {
       url: `./tiragem.html?${params.toString()}`,
       title: 'tiragem',
-      width: 500,
-      height: 500,
+      width: 600,
+      height: 520,
+      decorations: false,
+      transparent: true,
       resizable: false
     });
 
@@ -63,10 +66,9 @@ function App(){
 
         <TitleBar />
 
-        <img className="w-50 object-fill mt-20 floating hover:w-52 transition-transform active:w-50"
-          src="/menu-card.png"
-          onClick={abrirTiragem}>
-        </img>
+        <div className="mt-20 floating">
+          <TarotCard onClick={abrirTiragem} />
+        </div>
 
         <div className="font-pixel text-[26px] my-15 select-none text-zinc-200 floating text-center">
           <Typewriter text={"toque a carta\npara revelá-la"} speed={80}/>

@@ -2,7 +2,11 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 
 const appWindow = getCurrentWindow();
 
-function TitleBar() {
+type TitleBarProps = {
+  onClose?: () => void;
+};
+
+function TitleBar({ onClose }: TitleBarProps) {
   return (
     <div
       data-tauri-drag-region
@@ -21,7 +25,7 @@ function TitleBar() {
         </button>
 
         <button
-          onClick={() => appWindow.close()}
+          onClick={onClose ?? (() => appWindow.close())}
           className="w-6 h-6 flex items-center justify-center rounded hover:bg-zinc-800 text-zinc-300 active:translate-y-1 transition-transform"
         >
           ✕

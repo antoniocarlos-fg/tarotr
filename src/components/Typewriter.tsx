@@ -1,23 +1,28 @@
 import { useState, useEffect } from "react";
 
-function Typewriter({ text, speed = 80 }) {
+type TypewriterProps = {
+  text: string;
+  speed?: number;
+};
+
+function Typewriter({ text, speed = 80 }: TypewriterProps) {
   const [displayed, setDisplayed] = useState("");
 
   useEffect(() => {
-  setDisplayed("");
-  let i = 0;
+    setDisplayed("");
+    let index = 0;
 
-  const interval = setInterval(() => {
-    if (i >= text.length) {
-      clearInterval(interval);
-      return;
-    }
-    setDisplayed((prev) => prev + text[i]);
-    i++;
-  }, speed);
+    const interval = setInterval(() => {
+      index++;
+      setDisplayed(text.slice(0, index));
 
-  return () => clearInterval(interval);
-}, [text, speed]);
+      if (index >= text.length) {
+        clearInterval(interval);
+      }
+    }, speed);
+
+    return () => clearInterval(interval);
+  }, [text, speed]);
 
   return (
     <span className="inline-block whitespace-pre-line">

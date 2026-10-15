@@ -12,7 +12,7 @@ html, body{
 
 @font-face {
     font-family: 'pixel';
-    src: url('src/assets/fonts/pixel.ttf') format('truetype');
+    src: url('./assets/fonts/pixel.ttf') format('truetype');
     font-style: normal;
     font-display: swap;
 }
@@ -28,4 +28,29 @@ html, body{
 
 .floating:hover{
     animation-play-state: paused;
+}
+
+@keyframes revelar-carta {
+    from { opacity: 0; transform: translateY(16px) scale(0.94); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.tiragem-entrada {
+    animation: revelar-carta 500ms ease-out both;
+}
+
+.tiragem-entrada-atrasada {
+    animation-delay: 150ms;
+}
+
+.tiragem-texto {
+    scrollbar-color: #a855f7 transparent;
+    scrollbar-width: thin;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .floating,
+    .tiragem-entrada {
+        animation: none;
+    }
 }

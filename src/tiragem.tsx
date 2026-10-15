@@ -1,5 +1,6 @@
 import { getCurrentWindow } from '@tauri-apps/api/window'
 import { WebviewWindow } from '@tauri-apps/api/webviewWindow'
+import TitleBar from './TitleBar.tsx'
 
 function Tiragem() {
   const params = new URLSearchParams(window.location.search);
@@ -19,18 +20,39 @@ function Tiragem() {
   }
 
   return (
-    <div className="w-screen h-screen flex my-5">
-        <div className="flex flex-col items-start my-3 mx-5 gap-2">
-            <img className="w-50 object-fill" src={imagem ?? undefined} alt={nome ?? "Carta de tarô"} />
-            <button onClick={voltar} className="select-none self-center p-2 rounded bg-blue-400 hover:bg-blue-600 active:translate-y-1 transition-transform text-white text-[20px]">
-            Voltar</button>
+    <div className="flex h-screen w-screen flex-col overflow-hidden rounded-2xl border-2 border-purple-400 bg-zinc-950 bg-[url(/background.gif)] text-zinc-100">
+      <TitleBar onClose={voltar} />
+
+      <main className="flex min-h-0 flex-1 gap-4 p-4">
+        <div className="flex w-40 shrink-0 flex-col items-center gap-5 pt-5">
+          <div className="tiragem-entrada w-full">
+            <img
+              className="floating block w-full drop-shadow-[0_0_16px_rgba(192,132,252,0.55)] select-none"
+              src={imagem ?? undefined}
+              alt={nome ?? "Carta de tarô"}
+            />
+          </div>
+
+          <button
+            type="button"
+            onClick={voltar}
+            className="font-pixel select-none rounded-lg border border-purple-300 bg-purple-950/85 px-5 py-3 text-sm text-zinc-100 shadow-[0_0_14px_rgba(168,85,247,0.35)] transition-all duration-200 hover:-translate-y-1 hover:bg-purple-800 hover:shadow-[0_0_20px_rgba(192,132,252,0.55)] active:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-purple-300"
+          >
+            Voltar
+          </button>
         </div>
 
-        <div className="flex flex-col mr-5 flex-1">
-            <h1 className="text-[32px]">{nome}</h1>
+        <section className="tiragem-entrada tiragem-entrada-atrasada flex min-h-0 min-w-0 flex-1 flex-col rounded-xl border border-purple-400/70 bg-zinc-950/80 shadow-[inset_0_0_20px_rgba(168,85,247,0.12)] backdrop-blur-sm">
+          <div className="border-b border-purple-400/50 px-4 pb-3 pt-4">
+            <span className="text-xs text-purple-300" aria-hidden="true">✦ ✧ ✦</span>
+            <h1 className="font-pixel mt-2 text-lg leading-snug text-purple-100">{nome}</h1>
+          </div>
 
-            <p className="text-[16px]">{texto}</p>
-        </div>
+          <div className="tiragem-texto min-h-0 flex-1 overflow-y-auto px-4 py-3">
+            <p className="text-sm leading-6 text-zinc-100">{texto}</p>
+          </div>
+        </section>
+      </main>
     </div>
   );        
 }
